@@ -1,3 +1,5 @@
+// List of a number of different functions I created to simulate bounded noises
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -263,58 +265,9 @@ printf("E=%g\n", E);
 }
 
 
-
-
-
 // Restituisce N=ultimo indice del vettore X  time. I vettori vanno quindi da 0 a N.
 
-int Cai_Lin_fals(double *X, double *time, double tau, double B, double delta, double T, double dt, double x0, int seed){
 
-  double dW, dt1;
-  double x, gammaquad, gamma, drift, diff, mu, c;
-  int i;
-
-  const gsl_rng_type * R;
-  gsl_rng * r;
-  gsl_rng_env_setup ();
-  R = gsl_rng_default;
-  r = gsl_rng_alloc (R);
-  gsl_rng_set(r,seed); 
-
-  if(delta<=-1) {
-	printf("Valore di delta non valido. Inserire un delta maggiore di -1\n");
-	return -1;}
-
-  // DICHIARAZIONE DELLE VARIABILI
-  
-  mu=1/tau;
-  gammaquad=mu/(1+delta);
-  gamma=sqrt( gammaquad );
-    
-  X[0]=x0;
-  time[0]=0;
-  i=0;
-  
-  c=sqrt(dt);
-  while(time[i]<T){
-	x = X[i];
-	drift = -mu*x;
-	dW=gsl_ran_gaussian_ziggurat(r,1);
-	diff=sqrt(B*B - x*x);
-	X[i+1] = X[i] + drift*dt + gamma*diff*c*dW - 0.5*gammaquad*x*dt*(dW*dW -1);
-	dt1=dt;
-	while(fabs(X[i+1]) > B){
-		dt1 = 0.1*dt1;
-		X[i+1] = X[i] + drift*dt1 + gamma*diff*sqrt(dt1)*dW - 0.5*gammaquad*x*dt1*(dW*dW -1);
-		}
-	time[i+1] = time[i] + dt1;
-	i=i+1;
-   }
-
-  return i;
-  gsl_rng_free(r);
-
-}
 
 void Brown1(double dt, double *B, int seed){
   
@@ -338,24 +291,6 @@ void Brown1(double dt, double *B, int seed){
   gsl_rng_free(r);
 }
 
-/* Se un MB al tempo t0 vale a e al tempo t1 vale b, il seguente programma restituisce un possibile
-valore del MB al tempo (t0+t1)/2 */
-
-double Half_bridge(double b, double dt, int seed){
-  double dt_temp, x, c;
-  double *B;
-  int N;
-
-  c=sqrt(dt);
-  dt_temp=0.5;
-  N=1/dt_temp;
-  B=(double*)malloc((N+1)*sizeof(double));
-  Brown1(dt_temp, B, seed);
-  x = 0.5*b + c*(B[1] - 0.5*B[2]);
-  free(B);
-  return x;
-}
-
 
 double F_cai(double x, double dt, double B, double mu, double gamma, double gammaquad, double w, int seed){
   double drift, diff, w1;
@@ -373,7 +308,6 @@ double F_cai(double x, double dt, double B, double mu, double gamma, double gamm
   return y;
 }
   
-
 
 void Cai_Lin(double *X, double tau, double B, double delta, double T, int N, double x0, int seed){
 
@@ -408,7 +342,6 @@ void Cai_Lin(double *X, double tau, double B, double delta, double T, int N, dou
 
   gsl_rng_free(r);
 }
-
 
 
 int Tsall_Borl_fals(double *X, double *time, double tau, double B, double q, double T, double dt, double x0, int seed){
@@ -558,7 +491,7 @@ void DeGaetano(double *C, double *Q, double *Noise, double dt, double k1, double
 	C[0]=C0;
 	Q[0]=0;
 	h=dt;
-
+// Implementazione Runge-Kutta, ordine 4
 	for(i=0; i<N; i++){
 		No1=Noise[2*i];
 		No2=Noise[2*i + 1];
@@ -604,24 +537,7 @@ void DeGaetano_white(double *C, double *Q, double *k, double k1, double k2, doub
 		dW=gsl_ran_gaussian_ziggurat(r,1);
 		Q[i+1]= Q[i] + h*H1q + sigma*Q[i]*c*dW + 0.5*sigma*sigma*Q[i]*h*(dW*dW -1);
 		k[i] = k2 + sigma*c*dW/h + 0.5*sigma*sigma*(dW*dW -1);
-
-/*
-		F_Deg(&H1c, &H1q, C[i], Q[i], k1, k2);
-		Z2c=C[i] + 0.5*h*H1c;
-		Z2q=Q[i] + 0.5*h*H1q;
-		F_Deg(&H2c, &H2q, Z2c, Z2q, k1, k2);
-		Z3c=C[i] + 0.5*h*H2c;
-		Z3q=Q[i] + 0.5*h*H2q;		
-		F_Deg(&H3c, &H3q, Z3c, Z3q, k1, k2);
-		Z4c=C[i] + h*H3c;
-		Z4q=Q[i] + h*H3q;	
-		F_Deg(&H4c, &H4q, Z4c, Z4q, k1, k2);
-
-		C[i+1]= C[i] + h/6*(H1c + 2*H2c + 2*H3c + H4c);
-		F_Deg(&Z1c, &Z1q, C[i]+ h*H1c, Q[i] + h*H1q,  k1, k2);
-		dW=gsl_ran_gaussian_ziggurat(r,1);
-		Q[i+1]= Q[i] + h/2*(H1q + Z1q) + sigma*Q[i]*c*dW + 0.5*sigma*sigma*Q[i]*h*(dW*dW -1);
-*/
+		
 	}
 k[N]=0;
 }
@@ -857,16 +773,6 @@ double mean(double *X, int M){
   }
 
 
-
-
-
-
-
-
-
-
-
-
 double Square_difference_asymm(double *P, double A, double mean, double *U, int N_u, double dt, double k1, double k2, double C0, int seed){
 
   double *Noise, *C, *Q;
@@ -1094,5 +1000,3 @@ void SA_asymm(double *U, int N_u, double *P_iniz, int K, double T0, double Tf, d
   free(P);
   free(P_new);
 }
-
-
