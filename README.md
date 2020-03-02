@@ -1,8 +1,9 @@
 # Master Dissertation and beyond
-This repository contains work associated with the development of my Master dissertation in Pisa. The dissertation focused on theoretical aspects of stochastic analysis (in particular existence, uniqueness, boundedness of families of Stochastic Differential Equations), and on the use of bounded stochastic processes in Pharmacokinetic modelling.
+This repository contains work associated with the development of my Master dissertation in Pisa. The dissertation focused on theoretical aspects of stochastic analysis (in particular existence, uniqueness and boundedness of families of Stochastic Differential Equations), and on the use of bounded stochastic processes in Pharmacokinetic modelling.
 
 # Publication and Code
-Two published papers on the theoretical investigations summarised above are linked: JMM=Journal of Mathematical Physics; SAA=Stochastic Analysis and Applications. In addition, one file is provided  (noises_deg.c) with the main code I wrote in C during my Master dissertation. This was used to model pharmacokinetics dynamics through bounded noises.
+This repository contains two published papers on the theoretical investigations summarised above: JMM=Journal of Mathematical Physics; SAA=Stochastic Analysis and Applications. In addition, a limited number of C scripts written for the disseration are provided. The aim of the code was both to confirm (and guide) the theoretical investigations carried out in the dissertation, and to model pharmacokinetics dynamics through bounded noises.
+Most of the scripts above carry out specific tasks (e.g., sample random trajectories of the solution to a system of SDEs), using other routines I created. The definition of all these routines is in the script "List.c". 
 
 # Important Disclaimer
-The code has been entirely written during my Master studies (2014), and is much less accompanied by comments than I do now. I plan to comment the code soon.
+The code has been written entirely during the development of my Master studies, in 2014. It does constitute the first organic piece of code I wrote, and the lack of comments shows my inexperience at the time. I now do my best to comment often line by line and make the code as readable as possible.
