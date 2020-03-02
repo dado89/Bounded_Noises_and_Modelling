@@ -6,7 +6,8 @@
 
 // DA COMPILARE CON gcc autocorr_cailin.c `pkg-config --cflags --libs gsl`
 
-// Crea un istogramma della densità stazionaria del rumore di Tsallis-Borland con i parametri specificati
+// Stores values of an histogram (to be later plotted in Matlab) for the statonary density of 
+// the Cai-Lin noise with the specified parameters.
 
 int main() {
 
