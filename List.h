@@ -3,12 +3,16 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_math.h>
 
+// This script defines the most important functions which are used in all other scripts.
+// Some of the functions solve SDEs, some compute the energy of the solution function, other 
+// compute the L^2 or L^\infty norm, others construct Brownian Bridges etc. 
+// The body of the functions is defined in the script "Main.c".
+
 int sign(double x);
 int max(int a, int b);
 double norm2(double *X, double *time, int N);
 double norminf(double *X, int N);
 double mean(double *X, int M);
-
 
 
 double phi1(double x, double alpha);
@@ -21,7 +25,6 @@ double Energy_min_dt(double *P, double *U, int N_u, int K, double dt, double k1,
 double Energy_mean_dt(double *P, double *U, int N_u, int K, double dt, double k1, double k2, double C0);
 
 
-
 void Brown1(double dt, double *B, int seed);
 double Half_bridge(double b, double dt, int seed);
 double F_cai(double x, double dt, double B, double mu, double gamma, double gammaquad, double w, int seed);
@@ -30,7 +33,6 @@ double F_tsb(double x, double dt, double B, double mu, double gamma, double w, i
 void Cai_Lin(double *X, double tau, double B, double delta, double T, int N, double x0, int seed);
 void Tsall_Borl(double *X, double tau, double B, double q, double T, int N, double x0, int seed);
 void Sine_Wien(double *X, double tau, double B, double dt, int N, double W0, int seed);
-
 
 
 void F_Deg(double *X, double *Y, double c, double q, double k1, double k2);
@@ -42,11 +44,9 @@ void Lansky_white_k(double *X, double *k_val, double k, double sigma, double T, 
 void Lansky(double *X, double *Noise, double *time, double k, int N);
 
 
-
 int indice(double *X, double t, int sx, int dx);
 int indice_cresc(double *X, double t, int sx, int dx);
 int indice_decr(double *X, double t, int sx, int dx);
-
 
 
 double F_Nonlin1(double y, double J, double nu_t);
