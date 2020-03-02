@@ -8,6 +8,8 @@
 
 #define PI 3.141592654
 
+// This script contains the definition of numerous functions used in the project.
+
 
 double random_unif(double a, double b){
   double x;
