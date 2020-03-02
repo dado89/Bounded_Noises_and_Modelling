@@ -9,7 +9,7 @@
 
 int main(){
 
-  // COSTANTI GENERALI DEL PROBLEMA DA RISOLVERE
+  // Pharmacokinetic parameters of the model (dissolution rates and initial concentration)
 
   const double k1=0.044;
   const double k2=0.016;
@@ -32,7 +32,7 @@ RAT5
   const double C0=86.4;
 */
 
-  // DEFINIZIONE DELLE PRINCIPALI VARIABILI USATE
+  // Declaration of main variables used
 
   double T, dt, delta, B, tau, tau1, tau2, x0, En;
   double *C, *Q, *Noise, *times, *P, *U;
@@ -45,6 +45,8 @@ RAT5
   T=100;
   N=T/dt;
  
+  // Allocate memory
+	
   Noise=(double*)malloc((2*N +1)*sizeof(double));
   times=(double*)malloc((N+1)*sizeof(double));
 
@@ -53,7 +55,7 @@ RAT5
   P=(double*)malloc(4*sizeof(double));			// k1, k2, C0
   U=(double*)malloc(2*N_u*sizeof(double));
 
-
+  // Solve the system of equations and compute energy
   B=k2;
   delta=1;
   tau=5;
@@ -76,14 +78,12 @@ RAT5
   for(i=0; i<N_u; i++){
 	ind=U[i]/dt;
 	U[N_u + i]=C[ind];
-//printf("%g\n", U[N_u +i]);
   }
 
- /* for(i=0; i<N_u; i++){
+  for(i=0; i<N_u; i++){
 	ind=U[i]/dt;
 	U[N_u + i]=Q[ind];
-  */
-
+  
   B=0.133791*k2;
   delta=0.366798;
   tau=90.442;
@@ -101,7 +101,7 @@ RAT5
 for(i=0; i<4; i++)
 seed=rand();
 
-  En=Energy_min_dt(P, U, N_u, K, dt, k1, k2, C0);
+En=Energy_min_dt(P, U, N_u, K, dt, k1, k2, C0);
 printf("Energia=%g\n", En);
 
 
